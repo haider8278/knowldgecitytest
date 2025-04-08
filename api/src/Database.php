@@ -45,7 +45,14 @@ class Database
      */
     public function runMigrations(): void
     {
-        $sql = file_get_contents(__DIR__ . '/database/migrations/1744097978_migrations.sql');
-        $this->conn->exec($sql);
+        // fetch and run all migration files in database/migrations directory
+        $migrationFiles = glob(__DIR__ . '/database/migrations/*.sql');// get all .sql files in migrations directory
+        foreach ($migrationFiles as $file) {
+            $sql = file_get_contents($file);
+            $this->conn->exec($sql);
+        }
+        
+        // $sql = file_get_contents(__DIR__ . '/database/migrations/1744097978_migrations.sql');
+        // $this->conn->exec($sql);
     }
 }
